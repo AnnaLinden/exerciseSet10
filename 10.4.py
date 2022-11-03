@@ -49,29 +49,36 @@ class Car:
 
 
 class Race:
-    def __init__(self, name, distance, list_of_cars):
+    def __init__(self, name, distance, cars):
         self.name = name
         self.distance = distance
-        self.list_of_cars = list_of_cars
+        self.cars = cars
 
     # generates a random change of speed for each car and calls their drive method.
     def hour_passes(self):
-        hour = 0
+        self.hour = 0
+        self.hour += 1
+        for i in range(len(self.cars)):
+            self.cars[i].accelerate(random.randint(-10, 15))
+            self.cars[i].drive(1)
+            if self.hour % 10 == 0:
+                self.print_status()
+        '''
         while car.travel_dist < self.distance:
             hour += 1
-            for i in self.list_of_cars:
+            for i in self.cars:
                 self.race_finished()
                 car.accelerate(random.randint(-10, 15))
                 car.drive(1)
                 if hour % 10 == 0:
                     self.print_status()
-
+        '''
 
     # prints out the current information of each car as a clear, formatted table
     def print_status(self):
         table = Texttable()
         table.header(["registration number", "maximum speed", "current speed", "travelled distance"])
-        for car in self.list_of_cars:
+        for i in self.cars:
             table.add_row([car.reg_num, car.max_speed, car.curr_speed, car.travel_dist])
         print(table.draw())
 
@@ -93,4 +100,7 @@ while num < 10:
     print(f"The car with {car.reg_num} is created, the maximum speed is {car.max_speed} km/h.")
 
 race1 = Race("Grand Demolition Derby", 8000, cars)
-race1.hour_passes()
+while True:
+    race1.hour_passes()
+    if race1.race_finished()==True:
+        break
